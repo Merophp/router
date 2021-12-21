@@ -1,0 +1,20 @@
+{
+	"name": "merophp/router",
+	"description": "A request router for PHP",
+	"license": "MIT",
+	"authors": [
+        {
+            "name": "Robert Becker",
+            "role": "Developer"
+        }
+	],
+    "autoload": {
+        "psr-4": {"Merophp\\Router\\": "src/"}
+    },
+    "require": {
+		"php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
