@@ -10,6 +10,7 @@ use IteratorAggregate;
 use Merophp\Router\Exception\InvalidArgumentException;
 use Merophp\Router\Routes\RouteInterface;
 use Merophp\Router\Routes\Scope;
+use Traversable;
 
 /**
  * Route collection stores routes.
@@ -85,9 +86,9 @@ class RouteCollection implements IteratorAggregate
     }
 
     /**
-     * @return ArrayIterator
+     * @return Traversable
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->routes);
     }
