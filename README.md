@@ -7,14 +7,14 @@ Fast, flexible and extendable request router for PHP.
 Via composer:
 
 <code>
-composer install merophp/router
+composer require merophp/router
 </code>
 
 ## Basic Usage
 
 Route definitions will be stored in route collectors. The route providers job is 
 to provide routes by a requested HTTP method from its route collection. The router 
-get the routes from a provider and look for a matching route. He also executes route 
+gets the routes from a provider and look for a matching route. He also executes route 
 handlers.
 
 <pre><code>require_once 'vendor/autoload.php';
