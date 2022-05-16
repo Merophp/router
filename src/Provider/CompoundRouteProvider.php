@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Merophp\Router\Provider;
 
+use Merophp\Router\Utility\RouterUtility;
+
 /**
  * CompoundRouteProvider is a route provider that allows combining multiple route providers.
  */
@@ -31,9 +33,7 @@ final class CompoundRouteProvider implements RouteProviderInterface{
     public function getSortedRoutesForHttpMethod(string $httpMethod): iterable
     {
         $routes = iterator_to_array($this->getRoutesForHttpMethod($httpMethod), false);
-        usort($routes, function($b, $a){
-            return (substr_count($a->getPattern(),'/') == substr_count($b->getPattern(),'/') ? strcmp($a->getPattern(), $b->getPattern()) : substr_count($a->getPattern(),'/') - substr_count($b->getPattern(),'/'));
-        });
+		RouterUtility::sortRoutesByPriority($routes);
         yield from $routes;
     }
 

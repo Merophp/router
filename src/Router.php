@@ -38,8 +38,8 @@ final class Router{
          */
         foreach($this->routeProvider->getSortedRoutesForHttpMethod($httpMethod) as $route){
             $pregPattern = '#^'.preg_replace(
-                ['#\\{[A-Za-z0-9]+\\}#','#\\*#'],
-                ['([A-Za-z0-9\\_\\-]+)','.*'],
+                ['#\\.#', '#\\{[A-Za-z0-9]+\\}#','#\\*#'],
+                ['\\.', '([A-Za-z0-9\\_\\-]+)','.*'],
                 $route->getPattern()
             ).'$#';
             if(preg_match($pregPattern, $uriPath, $matches)){
