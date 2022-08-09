@@ -38,10 +38,11 @@ final class RouterTest extends TestCase
 
         $routeCollectionB = new RouteCollection;
         $routeCollectionB->addMultiple([
+            new GetRoute('/api/v1/foo/bar.php', function(){}),
             new GetRoute('/api/v1/foo/bar', function(){}),
             new GetRoute('/api/v1/bar/*', function(){}),
             new PostRoute('/api/v1/foo/*', function(){}),
-            new GetRoute('/api/v1/foo/{arg1}/{arg2}/hello', function(){}),
+            new GetRoute('/api/v1/foo/{arg1}/{arg_2}/hello', function(){}),
             new Route(['*'], '/api/v1/foo/bar/hello', function(){})
         ]);
 
@@ -57,8 +58,13 @@ final class RouterTest extends TestCase
     public function testMatch()
     {
         $route = self::$routerInstance->match('GET', '/api/v1/foo/Ano/Nymous/hello');
-        $this->assertEquals('/api/v1/foo/{arg1}/{arg2}/hello', $route->getPattern());
+        $this->assertEquals('/api/v1/foo/{arg1}/{arg_2}/hello', $route->getPattern());
         $this->assertEquals('Ano', $route->getArguments()[0]);
+        $this->assertEquals('Nymous', $route->getArguments()[1]);
+
+        $route = self::$routerInstance->match('GET', '/api/v1/foo/Foo+Bar%._-/Nymous/hello');
+        $this->assertEquals('/api/v1/foo/{arg1}/{arg_2}/hello', $route->getPattern());
+        $this->assertEquals('Foo+Bar%._-', $route->getArguments()[0]);
         $this->assertEquals('Nymous', $route->getArguments()[1]);
 
         $route = self::$routerInstance->match('GET', '/api/v1/foo/Ano/Nymous/by');
@@ -72,6 +78,9 @@ final class RouterTest extends TestCase
         $route = self::$routerInstance->match('PUT', '/api/v1/foo/bar/hello');
         $this->assertEquals('/api/v1/foo/bar/hello', $route->getPattern());
         $this->assertContains('*', $route->getMethods());
+
+        $route = self::$routerInstance->match('GET', '/api/v1/foo/bar.php');
+        $this->assertEquals('/api/v1/foo/bar.php', $route->getPattern());
     }
 
     public function testExpectNotFoundException()
